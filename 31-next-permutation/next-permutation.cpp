@@ -1,24 +1,27 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
+        int index = -1;
         int n = nums.size();
-        int i = n - 2;
-
-        // 1. find first index from right where nums[i] < nums[i+1]
-        while (i >= 0 && nums[i] >= nums[i+1]) {
-            i--;
-        }
-
-        // 2. if found, find element just larger than nums[i] from the right and swap
-        if (i >= 0) {
-            int j = n - 1;
-            while (nums[j] <= nums[i]) {
-                j--;
+        for (int i = n-2; i>=0; i--){
+            if (nums[i]<nums[i+1]){
+                index =i; 
+                break;
             }
-            swap(nums[i], nums[j]);
+        }
+        if (index == -1){
+            reverse(nums.begin(),nums.end());
+            return;
         }
 
-        // 3. reverse the suffix starting at i+1 (works even if i == -1, i.e. fully descending)
-        reverse(nums.begin() + i + 1, nums.end());
+        for (int i = n-1; i>index; i--){
+            if (nums[i]>nums[index]){
+                swap(nums[index], nums[i]);
+                break;
+            }
+        }
+        reverse (nums.begin()+index+1,nums.end());
+        return;
+        
     }
 };
